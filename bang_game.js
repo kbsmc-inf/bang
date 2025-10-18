@@ -431,7 +431,7 @@ function gameLoop() {
   if (passedPatients >= 10 && stage < 50) {
   stage++;
   passedPatients = 0;
-  speed += stage < 7 ? 0.4 : 0.6; 
+  speed += 0.7; 
   stageUpTimer = 50;
   stageUpHandled = false;
 }
@@ -515,3 +515,4 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(gameLoop);
   });
 });
+
