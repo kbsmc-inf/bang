@@ -225,6 +225,19 @@ function handleInput(e) {
   const mx = (clientX - rect.left) * scaleX;
   const my = (clientY - rect.top) * scaleY;
 
+  if (rankingShown) {
+    const restartBtnOnRanking = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+450, y2: HEIGHT/2+560 };
+    const toStartBtnOnRanking = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+600, y2: HEIGHT/2+710 };
+    const rankingRestartBtn = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+450, y2: HEIGHT/2+560 };
+
+    if (mx >= rankingRestartBtn.x1 && mx <= rankingRestartBtn.x2 && my >= rankingRestartBtn.y1 && my <= rankingRestartBtn.y2) {
+      rankingShown = false; // 랭킹 화면 상태 해제
+      resetGame();
+      requestAnimationFrame(gameLoop);
+    }
+    return; 
+  }
+
   // 게임 시작 버튼 클릭
   if (!gameStarted) {
     const btnX1 = WIDTH/2 - 225;
@@ -515,4 +528,5 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(gameLoop);
   });
 });
+
 
