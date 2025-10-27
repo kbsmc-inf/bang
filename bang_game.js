@@ -1,13 +1,8 @@
-// ==========================
-// bang_game.js
-// ==========================
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
 import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-// --------------------------
+
 // Firebase 초기화
-// --------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyB6Pn4hvYaER8GMduVmKKQEHtLimZoKqss",
   authDomain: "banggame-f2ae8.firebaseapp.com",
@@ -188,7 +183,7 @@ const protectionMap = {
 // --------------------------
 // 텍스트 그리기
 // --------------------------
-function drawTextWithBackground(text, x, y, font="10px NanumGothic", textColor="black", bgColor="white") {
+function drawTextWithBackground(text, x, y, font="bold 9px Galmuri11", textColor="black", bgColor="white") {
   ctx.font = font;
   ctx.textBaseline = "top";
   const padding = 5;
@@ -226,15 +221,6 @@ function handleInput(e) {
   const my = (clientY - rect.top) * scaleY;
 
   if (rankingShown) {
-    const restartBtnOnRanking = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+450, y2: HEIGHT/2+560 };
-    const toStartBtnOnRanking = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+600, y2: HEIGHT/2+710 };
-    const rankingRestartBtn = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+450, y2: HEIGHT/2+560 };
-
-    if (mx >= rankingRestartBtn.x1 && mx <= rankingRestartBtn.x2 && my >= rankingRestartBtn.y1 && my <= rankingRestartBtn.y2) {
-      rankingShown = false; // 랭킹 화면 상태 해제
-      resetGame();
-      requestAnimationFrame(gameLoop);
-    }
     return; 
   }
 
@@ -242,8 +228,8 @@ function handleInput(e) {
   if (!gameStarted) {
     const btnX1 = WIDTH/2 - 225;
     const btnX2 = WIDTH/2 + 222;
-    const btnY1 = HEIGHT/2 + 390;
-    const btnY2 = HEIGHT/2 + 550;
+    const btnY1 = HEIGHT/2 + 460;
+    const btnY2 = HEIGHT/2 + 610;
     if (mx >= btnX1 && mx <= btnX2 && my >= btnY1 && my <= btnY2) {
       gameStarted = true;
       resetGame();
@@ -254,8 +240,8 @@ function handleInput(e) {
 
   // 게임 오버 후 버튼
   if (gameOver) {
-    const restartBtn = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2-116, y2: HEIGHT/2 };
-    const quitBtn = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+17, y2: HEIGHT/2+135 };
+    const restartBtn = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+260, y2: HEIGHT/2+410 };
+    const quitBtn = { x1: WIDTH/2-245, x2: WIDTH/2+220, y1: HEIGHT/2+430, y2: HEIGHT/2+580 };
 
     if (mx >= restartBtn.x1 && mx <= restartBtn.x2 && my >= restartBtn.y1 && my <= restartBtn.y2) {
       resetGame();
@@ -333,9 +319,9 @@ function gameLoop() {
 
   if (gameOver) {
     ctx.drawImage(images.overgame, 0, 0, WIDTH, HEIGHT);
-    ctx.font = "bold 50px NanumGothic";
+    ctx.font = "bold 35px Galmuri11";
     ctx.fillStyle = "#000027ff";
-    ctx.fillText(`${score} 점`, WIDTH / 2 - 56, HEIGHT / 2 - 240);
+    ctx.fillText(`${score} 점`, WIDTH / 2 - 50, HEIGHT / 2 + 180);
 
     if (!nameEntered && window.playerInfo) {
       nameEntered = true;
@@ -354,7 +340,7 @@ function gameLoop() {
   if (showHeart) {
   ctx.save();
   ctx.globalAlpha = 0.85; // 살짝 투명하게
-  ctx.font = "bold 50px NanumGothic";
+  ctx.font = "bold 50px Galmuri11";
   ctx.fillStyle = "red";
   ctx.fillText("♥", bang.x + 10, bang.y + 5);
   ctx.restore();
@@ -362,8 +348,8 @@ function gameLoop() {
   if (heartTimer <= 0) showHeart = false;
 }
 
-  drawTextWithBackground(`스테이지: ${stage}`,10,10,"35px NanumGothic","white","black");
-  drawTextWithBackground(`점수: ${score}`,10,65,"35px NanumGothic","yellow","black");
+  drawTextWithBackground(`스테이지: ${stage}`,10,10,"bold 35px Galmuri11","white","#404040");
+  drawTextWithBackground(`점수: ${score}`,10,70,"bold 35px Galmuri11","yellow","#404040");
 
   if (stageUpTimer > 0) {
     let messageLines = ["Level UP!", "환자가 빨리 다가옵니다!"];
@@ -376,7 +362,7 @@ function gameLoop() {
     //게임 배경 그대로
     ctx.drawImage(images.background, 0, 0, WIDTH, HEIGHT);  
 
-    ctx.font = "bold 40px NanumGothic";
+    ctx.font = "bold 40px Galmuri11";
     ctx.textBaseline = "top";
 
     const centerY = HEIGHT / 2 - 100;
@@ -426,10 +412,10 @@ function gameLoop() {
 
     // 질병 이름
     const text = pt.disease || "???";
-    ctx.font = "bold 35px NanumGothic";
+    ctx.font = "bold 33px Galmuri11";
     const textWidth = ctx.measureText(text).width;
-    ctx.fillStyle="rgba(255,255,255,0.7)";
-    ctx.fillRect(pt.x+pt.width/2 - textWidth/2 -6, pt.y-36, textWidth+12,35);
+    ctx.fillStyle="rgba(255, 255, 255, 0.51)";
+    ctx.fillRect(pt.x+pt.width/2 - textWidth/2 -6, pt.y-36, textWidth+12,40);
     ctx.fillStyle="black";
     ctx.fillText(text, pt.x+pt.width/2 - textWidth/2, pt.y-30);
 
@@ -488,12 +474,12 @@ function showRankingScreen() {
 // 실제 화면에 랭킹 텍스트 그리기
 function drawRanking(rankings) {
   rankings.forEach((entry, index) => {
-    ctx.font = "bold 40px NanumGothic";
+    ctx.font = "bold 35px Galmuri11";
     ctx.fillStyle = "#00003E";
     ctx.fillText(
       `${entry.department}, ${entry.name}, ${entry.score}점`,
-      WIDTH / 2 - 185,
-      HEIGHT / 2 - 460 + index * 180
+      WIDTH / 2 - 200,
+      HEIGHT / 2 - 100 + index * 170
     );
   });
 }
@@ -528,5 +514,7 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(gameLoop);
   });
 });
+
+
 
 
